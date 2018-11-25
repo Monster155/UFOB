@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import ru.itlab.game.Screens.MainActivity;
+import ru.itlab.ufob.Screens.MainActivity;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
