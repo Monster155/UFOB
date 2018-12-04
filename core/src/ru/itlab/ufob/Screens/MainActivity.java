@@ -3,6 +3,7 @@ package ru.itlab.ufob.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -69,8 +70,7 @@ public class MainActivity extends Game {
             ms.screen = 0;
             tutor = TimeUtils.nanoTime();
         }
-        if ((Gdx.input.isKeyPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK))
-                && getScreen() == gs) {
+        if ( Gdx.input.isKeyPressed(Input.Keys.BACK) && getScreen() == gs) {
             setScreen(gos);
             gs.dispose();
             music(false, GOMusic);
