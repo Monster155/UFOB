@@ -2,7 +2,7 @@ package ru.itlab.ufob.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import ru.itlab.game.Screens.MainActivity;
+import ru.itlab.ufob.Screens.MainActivity;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
