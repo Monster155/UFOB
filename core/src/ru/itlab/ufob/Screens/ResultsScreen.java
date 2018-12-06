@@ -19,7 +19,7 @@ import ru.itlab.ufob.SpecialClasses.DialogWindow;
 
 import static ru.itlab.ufob.Utils.Constants.SCORE;
 
-public class ResultsScreen implements Screen{
+public class ResultsScreen implements Screen {
 
     Preferences prefs;
     public static String name = "Player 1";
@@ -30,47 +30,42 @@ public class ResultsScreen implements Screen{
     Vector2 pos;
     BitmapFont font;
     GlyphLayout glyphLayout;
-    float x1, y1, x2, y2;
 
-    public ResultsScreen(){
+    public ResultsScreen() {
         prefs = Gdx.app.getPreferences("Preferences");
-        if((prefs.getLong("First"+"s", 0)) == 0)
+        if ((prefs.getLong("First" + "s", 0)) == 0)
             generatePrefs();
     }
 
     @Override
     public void show() {
         batch = new SpriteBatch();
-        pos = new Vector2(0,0);
+        pos = new Vector2(0, 0);
         font = new BitmapFont(Gdx.files.internal("data/font.fnt"));
         font.getData().setScale(Gdx.graphics.getWidth() / 2560f);
 
         glyphLayout = new GlyphLayout();
-
-        glyphLayout.setText(font, "TheJoker");
-        x1 = glyphLayout.width;
-        y1 = glyphLayout.height;
-        glyphLayout.setText(font, "150");
-        x2 = glyphLayout.width;
-        y2 = glyphLayout.height;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(94f/256,63f/256,107f/256,256f);
+        Gdx.gl.glClearColor(94f / 256, 63f / 256, 107f / 256, 256f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        for(int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
+            if(i%2==0)glyphLayout.setText(font, prefs.getString(nums[i]), Color.YELLOW, 500, 11, false);
+            else glyphLayout.setText(font, prefs.getString(nums[i]), Color.WHITE, 500, 11, false);
             font.draw(batch,
-                    prefs.getString(nums[i]) + "",
-                    50,
-                    Gdx.graphics.getHeight() - y1*(i+1));
+                    glyphLayout,
+                    Gdx.graphics.getWidth() / 35,
+                    Gdx.graphics.getHeight() - glyphLayout.height * (i + 1));
+            if(i%2==0)glyphLayout.setText(font, prefs.getString(nums[i] + "s"), Color.YELLOW, 500, 11, false);
+            else glyphLayout.setText(font, prefs.getString(nums[i] + "s"), Color.WHITE, 500, 11, false);
             font.draw(batch,
-                    prefs.getLong(nums[i] + "s") + "",
-                    Gdx.graphics.getWidth()-x2,
-                    Gdx.graphics.getHeight() - y2*(i+1));
-
+                    glyphLayout,
+                    Gdx.graphics.getWidth() - glyphLayout.width - Gdx.graphics.getWidth() / 35,
+                    Gdx.graphics.getHeight() - glyphLayout.height * (i + 1));
         }
         batch.end();
     }
@@ -97,52 +92,54 @@ public class ResultsScreen implements Screen{
 
     @Override
     public void dispose() {
-
+        font.dispose();
+        batch.dispose();
     }
 
     public void saveResults() {
         int newPlace = 9;
-        for(int i = 0; i < nums.length; i++) {
-            if(prefs.getLong(nums[i]+"s", 0) < SCORE){
+        for (int i = 0; i < nums.length; i++) {
+            if (prefs.getLong(nums[i] + "s", 0) < SCORE) {
                 newPlace = i;
                 break;
             }
         }
-        for(int i = nums.length-1; i > newPlace; i--) {
-            prefs.putLong(nums[i]+"s", prefs.getLong(nums[i-1]+"s")).flush();
-            prefs.putString(nums[i], prefs.getString(nums[i-1])).flush();
+        for (int i = nums.length - 1; i > newPlace; i--) {
+            prefs.putLong(nums[i] + "s", prefs.getLong(nums[i - 1] + "s")).flush();
+            prefs.putString(nums[i], prefs.getString(nums[i - 1])).flush();
         }
-        prefs.putLong(nums[newPlace]+"s", SCORE).flush();
+        prefs.putLong(nums[newPlace] + "s", SCORE).flush();
         prefs.putString(nums[newPlace], name).flush();
-        for(int i = 0; i < nums.length; i++)
-            Gdx.app.log("Prefs", prefs.getLong(nums[i]+"s")+" "+prefs.getString(nums[i]));
+        for (int i = 0; i < nums.length; i++)
+            Gdx.app.log("Prefs", prefs.getLong(nums[i] + "s") + " " + prefs.getString(nums[i]));
     }
 
-    public void generatePrefs(){
+    public void generatePrefs() {
         DialogWindow dw = new DialogWindow(this);
         Gdx.input.getTextInput(dw, "Enter your name for Records", "", "Enter Your Name");
 
-        prefs.putLong(nums[0]+"s", 135).flush();
+        prefs.putLong(nums[0] + "s", 135).flush();
         prefs.putString(nums[0], "Bulat").flush();
-        prefs.putLong(nums[1]+"s", 114).flush();
+        prefs.putLong(nums[1] + "s", 114).flush();
         prefs.putString(nums[1], "Leonid").flush();
-        prefs.putLong(nums[2]+"s", 105).flush();
+        prefs.putLong(nums[2] + "s", 105).flush();
         prefs.putString(nums[2], "Damir").flush();
-        prefs.putLong(nums[3]+"s", 94).flush();
+        prefs.putLong(nums[3] + "s", 94).flush();
         prefs.putString(nums[3], "Kamilya").flush();
-        prefs.putLong(nums[4]+"s", 87).flush();
+        prefs.putLong(nums[4] + "s", 87).flush();
         prefs.putString(nums[4], "Andrey").flush();
-        prefs.putLong(nums[5]+"s", 73).flush();
+        prefs.putLong(nums[5] + "s", 73).flush();
         prefs.putString(nums[5], "Katya").flush();
-        prefs.putLong(nums[6]+"s", 60).flush();
+        prefs.putLong(nums[6] + "s", 60).flush();
         prefs.putString(nums[6], "Amir").flush();
-        prefs.putLong(nums[7]+"s", 59).flush();
+        prefs.putLong(nums[7] + "s", 59).flush();
         prefs.putString(nums[7], "Kirill").flush();
-        prefs.putLong(nums[8]+"s", 47).flush();
+        prefs.putLong(nums[8] + "s", 47).flush();
         prefs.putString(nums[8], "Ayrat").flush();
     }
-    public void contin(){
-        prefs.putLong(nums[9]+"s", 0).flush();
-        prefs.putString(nums[9], name+"").flush();
+
+    public void contin() {
+        prefs.putLong(nums[9] + "s", 0).flush();
+        prefs.putString(nums[9], name + "").flush();
     }
 }
