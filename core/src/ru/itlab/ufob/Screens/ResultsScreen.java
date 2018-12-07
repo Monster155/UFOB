@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import ru.itlab.ufob.SpecialClasses.DialogWindow;
+import ru.itlab.ufob.SpecialClasses.Net;
 
 import static ru.itlab.ufob.Utils.Constants.SCORE;
 
@@ -39,6 +40,10 @@ public class ResultsScreen implements Screen {
 
     @Override
     public void show() {
+        Net net = new Net();
+        //net.Server();
+        //net.Client();
+
         batch = new SpriteBatch();
         pos = new Vector2(0, 0);
         font = new BitmapFont(Gdx.files.internal("data/font.fnt"));

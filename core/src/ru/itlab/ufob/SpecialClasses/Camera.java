@@ -17,7 +17,7 @@ public class Camera {
     public Camera(Player player){
         this.player = player;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, CamScale.x / PPM / 2f, CamScale.y / PPM / 2f);
+        camera.setToOrtho(false, CamScale.x / PPM / 1.75f, CamScale.y / PPM / 1.75f);
     }
 
     public void update(float delta){

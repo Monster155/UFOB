@@ -29,7 +29,7 @@ public class Bullet{
         this.rot = rot;
         body = Utils.createBox(world, check(pos), B_SIZE.x, B_SIZE.y,
                 false, "bullet", (short)-2);
-        texture = new Texture("bullets/bulletVer.png");
+        texture = new Texture("bullets/bullet.png");
     }
 
     public void update(float delta){
