@@ -18,7 +18,6 @@ public class MainActivity extends Game {
     public TutorialScreen ts;
     public ResultsScreen rs;
     Music mainMusic, GOMusic;
-    long time = TimeUtils.nanoTime();
     long tutor;
 
     @Override
@@ -83,8 +82,7 @@ public class MainActivity extends Game {
             setScreen(ms);
             rs.dispose();
         }
-        if ((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.BACK))
-                && getScreen() == gos && MathUtils.nanoToSec * (TimeUtils.nanoTime() - time)*2f > 1f) {
+        if ((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.BACK)) && getScreen() == gos) {
             Gdx.app.log("MainActivity", "setScreen = ms");
             setScreen(ms);
             gos.dispose();
@@ -93,7 +91,6 @@ public class MainActivity extends Game {
             Gdx.app.log("Screens", "GameOverScreen");
             setScreen(gos);
             gs.dispose();
-            time = TimeUtils.nanoTime();
         }
     }
 
