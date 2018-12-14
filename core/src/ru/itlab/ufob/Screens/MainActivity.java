@@ -19,11 +19,11 @@ public class MainActivity extends Game {
     public ResultsScreen rs;
     Music mainMusic, GOMusic;
     long tutor;
+    long time;
 
     @Override
     public void create() {
         Gdx.input.setCatchBackKey(true);
-
         gs = new GameScreen();
         ms = new MenuScreen();
         gos = new GameOverScreen();
@@ -39,7 +39,7 @@ public class MainActivity extends Game {
     @Override
     public void render() {
         super.render();
-        if(getScreen() == ms && ms.screen != 0){
+        if(getScreen().equals(ms) && ms.screen != 0){
             switch (ms.screen){
                 case 1:
                     setScreen(gs);
@@ -67,22 +67,24 @@ public class MainActivity extends Game {
             ms.screen = 0;
             tutor = TimeUtils.nanoTime();
         }
-        if ( Gdx.input.isKeyPressed(Input.Keys.BACK) && getScreen() == gs) {
+        if(isEscape() && getScreen().equals(gs)) {
             setScreen(gos);
             gs.dispose();
             music(false, GOMusic);
             music(true, mainMusic);
+            time = TimeUtils.nanoTime();
         }
-        if((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.BACK))
-                && getScreen().equals(ts) && MathUtils.nanoToSec * (TimeUtils.nanoTime() - tutor) > 1f) {
+        if((Gdx.input.isTouched() || isEscape()) && getScreen().equals(ts)
+                && MathUtils.nanoToSec * (TimeUtils.nanoTime() - tutor) > 0.5f) {
             setScreen(ms);
             ts.dispose();
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK) && getScreen().equals(rs)){
+        if(isEscape() && getScreen().equals(rs)){
             setScreen(ms);
             rs.dispose();
         }
-        if ((Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.BACK)) && getScreen() == gos) {
+        if ((Gdx.input.isTouched() || isEscape()) && getScreen().equals(gos)
+                && MathUtils.nanoToSec * (TimeUtils.nanoTime() - time) > 1f) {
             Gdx.app.log("MainActivity", "setScreen = ms");
             setScreen(ms);
             gos.dispose();
@@ -91,6 +93,13 @@ public class MainActivity extends Game {
             Gdx.app.log("Screens", "GameOverScreen");
             setScreen(gos);
             gs.dispose();
+            music(false, GOMusic);
+            music(true, mainMusic);
+            time = TimeUtils.nanoTime();
+        }
+        if(isEscape() && getScreen().equals(ss)){
+            setScreen(ms);
+            ss.dispose();
         }
     }
 
@@ -101,5 +110,11 @@ public class MainActivity extends Game {
         } else {
             music.stop();
         }
+    }
+
+    public boolean isEscape(){
+        return (Gdx.input.isKeyPressed(Input.Keys.BACK)
+                || Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)
+                || Gdx.input.isKeyPressed(Input.Keys.ESCAPE));
     }
 }

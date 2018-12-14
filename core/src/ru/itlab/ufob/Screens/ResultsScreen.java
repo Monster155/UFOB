@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 
 import ru.itlab.ufob.SpecialClasses.DialogWindow;
 import ru.itlab.ufob.SpecialClasses.Net;
@@ -65,8 +66,8 @@ public class ResultsScreen implements Screen {
                     glyphLayout,
                     Gdx.graphics.getWidth() / 35,
                     Gdx.graphics.getHeight() - glyphLayout.height * (i + 1));
-            if(i%2==0)glyphLayout.setText(font, prefs.getString(nums[i] + "s"), Color.YELLOW, 500, 11, false);
-            else glyphLayout.setText(font, prefs.getString(nums[i] + "s"), Color.WHITE, 500, 11, false);
+            if(i%2==0)glyphLayout.setText(font, prefs.getLong(nums[i] + "s")+"", Color.YELLOW, 500, Align.left, false);
+            else glyphLayout.setText(font, prefs.getLong(nums[i] + "s")+"", Color.WHITE, 500, Align.left, false);
             font.draw(batch,
                     glyphLayout,
                     Gdx.graphics.getWidth() - glyphLayout.width - Gdx.graphics.getWidth() / 35,

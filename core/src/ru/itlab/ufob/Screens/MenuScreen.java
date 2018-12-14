@@ -11,12 +11,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
 import ru.itlab.ufob.Utils.Constants;
@@ -27,11 +30,8 @@ public class MenuScreen implements Screen {
     TextureAtlas atlas;
     Skin skin;
     Stage stage;
-    BitmapFont font;
-    public int screen;
+    public static int screen;
     float btnScale, width, height;
-    TextButton.TextButtonStyle textButtonStyle;
-    ImageButton.ImageButtonStyle imageButtonStyle;
 
     @Override
     public void show(){
@@ -43,24 +43,15 @@ public class MenuScreen implements Screen {
 
         atlas = new TextureAtlas(Gdx.files.internal("buttons/button.pack"));
         skin = new Skin(atlas);
-        font = new BitmapFont(Gdx.files.internal("data/font.fnt"));
-        font.getData().setScale(0.3f); //размер текста не изменяется (всегда 640)
-
-        textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.pressedOffsetY = -1;
-        textButtonStyle.font = font;
-
-        imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.pressedOffsetY = -1;
 
         btnScale = 5;
         height = Gdx.graphics.getHeight()/6f;
         width = Gdx.graphics.getWidth()/2f - btnScale*height/2f;
 
-        createTextButton(width,0, btnScale*height,height,"tutorial");
-        createTextButton(width,height,btnScale*height,height,"records");
-        createTextButton(width,height*2f,btnScale*height,height,"play");
-        createImageButton(0,0,height, height,"settings");
+        createImageButton(width,0, btnScale*height,height,"tutorial",3);
+        createImageButton(width,height,btnScale*height,height,"records",2);
+        createImageButton(width,height*2f,btnScale*height,height,"play",1);
+        createImageButton(0,0,height, height,"settings",4);
 
         screen = 0;
     }
@@ -107,37 +98,25 @@ public class MenuScreen implements Screen {
         stage.dispose();
         atlas.dispose();
         skin.dispose();
-        font.dispose();
     }
 
-    public void createTextButton(float x, float y, float width, float height, final String text){
-        textButtonStyle.up = skin.getDrawable(text);
-        TextButton textButton = new TextButton(text, textButtonStyle);
-        textButton.setSize(width, height);
-        textButton.setPosition(x, y);
+    public void createImageButton(float x, float y, float width, float height, String text, final int screen){
+        ImageButton.ImageButtonStyle imageButtonStyle;
+        imageButtonStyle = new ImageButton.ImageButtonStyle();
+        imageButtonStyle.pressedOffsetY = -1;
+        imageButtonStyle.up = skin.getDrawable(text);
+        ImageButton imageButton = new ImageButton(imageButtonStyle);
+        imageButton.setSize(width, height);
+        imageButton.setPosition(x, y);
         //btn.setTransform(true);
         //btn.setScale(0.1f);
 
-        textButton.addListener(new InputListener(){
+        imageButton.addListener(new ChangeListener(){
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Example", "touch done at (" + x + ", " + y + ")");
-                if(text.equals("play"))screen = 1;
-                if(text.equals("records"))screen = 2;
-                if(text.equals("tutorial"))screen = 3;
-            }
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("Example", "touch started at (" + x + ", " + y + ")");
-                return true;
+            public void changed(ChangeEvent event, Actor actor) {
+                MenuScreen.screen = screen;
             }
         });
-
-        stage.addActor(textButton);
-    }
-
-    public void createImageButton(float x, float y, float width, float height, final String text){
-        imageButtonStyle.up = skin.getDrawable(text);
-        ImageButton imageButton = new ImageButton(imageButtonStyle);
+        stage.addActor(imageButton);
     }
 }
