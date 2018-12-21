@@ -11,8 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
-import ru.itlab.ufob.SpecialClasses.DialogWindow;
-
 import static ru.itlab.ufob.Utils.Constants.SCORE;
 
 public class ResultsScreen implements Screen {
@@ -111,8 +109,7 @@ public class ResultsScreen implements Screen {
     }
 
     public void generatePrefs() {
-        DialogWindow dw = new DialogWindow(this);
-        Gdx.input.getTextInput(dw, "Enter your name for Records", "", "Enter Your Name");
+
 
         prefs.putLong(nums[0] + "s", 135).flush();
         prefs.putString(nums[0], "Bulat").flush();

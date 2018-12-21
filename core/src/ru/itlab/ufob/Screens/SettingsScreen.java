@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import ru.itlab.ufob.SpecialClasses.DialogWindow;
 import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
 
 public class SettingsScreen implements Screen {
@@ -19,8 +18,6 @@ public class SettingsScreen implements Screen {
     public static Stage stage;
     Skin skin;
     TextureAtlas atlas;
-    static DialogWindow dw;
-    ResultsScreen rs;
     static MyDialogWindow mydw;
     public static boolean rend = false;
 
@@ -35,9 +32,6 @@ public class SettingsScreen implements Screen {
                 height,height,"rename");
         createImageButton(Gdx.graphics.getWidth()/2-height/2,Gdx.graphics.getHeight()-height*2,
                 height,height,"delete");
-
-        rs = new ResultsScreen();
-        dw = new DialogWindow(rs);
 
         mydw = new MyDialogWindow();
         Gdx.input.setInputProcessor(stage);
@@ -93,20 +87,9 @@ public class SettingsScreen implements Screen {
         imageButton.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SettingsScreen.choose(actor);
+                SettingsScreen.mydw.create(actor.getName());
             }
         });
         stage.addActor(imageButton);
-    }
-
-    public static void choose(Actor actor){
-        String text = actor.getName();
-        if(text.equals("rename")){
-            Gdx.input.getTextInput(dw, "Enter your name for Records", "", "Enter Your Name");
-        }
-        if(text.equals("delete")){
-            rend = true;
-            mydw.create();
-        }
     }
 }
