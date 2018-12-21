@@ -5,19 +5,13 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
 import ru.itlab.ufob.SpecialClasses.DialogWindow;
-import ru.itlab.ufob.SpecialClasses.Net;
 
 import static ru.itlab.ufob.Utils.Constants.SCORE;
 
@@ -41,10 +35,6 @@ public class ResultsScreen implements Screen {
 
     @Override
     public void show() {
-        Net net = new Net();
-        //net.Server();
-        //net.Client();
-
         batch = new SpriteBatch();
         pos = new Vector2(0, 0);
         font = new BitmapFont(Gdx.files.internal("data/font.fnt"));
