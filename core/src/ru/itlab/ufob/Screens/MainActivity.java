@@ -7,6 +7,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
+import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
+
 import static ru.itlab.ufob.Utils.Constants.LIVES;
 
 public class MainActivity extends Game {

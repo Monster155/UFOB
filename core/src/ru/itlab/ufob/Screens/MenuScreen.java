@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
+import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
 import ru.itlab.ufob.Utils.Constants;
 
 public class MenuScreen implements Screen {
@@ -32,10 +33,13 @@ public class MenuScreen implements Screen {
     Stage stage;
     public static int screen;
     float btnScale, width, height;
+    static MyDialogWindow mydw;
+    boolean rend = false;
 
     @Override
     public void show(){
         stage = new Stage();
+        mydw = new MyDialogWindow();
         Gdx.input.setInputProcessor(stage);
         texture = new Texture("masterpiece.png");
         Constants.Scale = Gdx.graphics.getHeight() * texture.getWidth() / texture.getHeight();
@@ -70,6 +74,7 @@ public class MenuScreen implements Screen {
                 Gdx.graphics.getHeight());
         stage.getBatch().end();
         stage.draw();
+        if(rend)mydw.render();
     }
 
     @Override

@@ -11,13 +11,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 
+import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
+
 import static ru.itlab.ufob.Utils.Constants.SCORE;
 
 public class ResultsScreen implements Screen {
 
-    Preferences prefs;
+    static Preferences prefs;
     public static String name = "Player 1";
-    String nums[] = new String[]{"First", "Second", "Third", "Fourth", "Fifth",
+    static String nums[] = new String[]{"First", "Second", "Third", "Fourth", "Fifth",
             "Sixth", "Seventh", "Eighth", "Ninth", "Tenth"};
 
     SpriteBatch batch;
@@ -28,7 +30,7 @@ public class ResultsScreen implements Screen {
     public ResultsScreen() {
         prefs = Gdx.app.getPreferences("Preferences");
         if ((prefs.getLong("First" + "s", 0)) == 0)
-            generatePrefs();
+            generatePrefs();//Нужно связать создание DW и создание таблицы, но чтобы они шли друг за другом
     }
 
     @Override
@@ -108,9 +110,7 @@ public class ResultsScreen implements Screen {
             Gdx.app.log("Prefs", prefs.getLong(nums[i] + "s") + " " + prefs.getString(nums[i]));
     }
 
-    public void generatePrefs() {
-
-
+    public static void generatePrefs() {
         prefs.putLong(nums[0] + "s", 135).flush();
         prefs.putString(nums[0], "Bulat").flush();
         prefs.putLong(nums[1] + "s", 114).flush();
@@ -131,8 +131,8 @@ public class ResultsScreen implements Screen {
         prefs.putString(nums[8], "Ayrat").flush();
     }
 
-    public void contin() {
-        prefs.putLong(nums[9] + "s", 0).flush();
-        prefs.putString(nums[9], name + "").flush();
+    public static void removePrefs(){
+        prefs.clear();
+        generatePrefs();
     }
 }

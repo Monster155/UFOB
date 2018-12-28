@@ -48,7 +48,6 @@ public class MyDialogWindow extends ApplicationAdapter{
     }
 
     void createDialog(String name){
-        //SettingsScreen.rend;
         if(name.equals("rename")){
             SettingsScreen.rend = true;
             textField = new TextField("", skin);
@@ -66,7 +65,7 @@ public class MyDialogWindow extends ApplicationAdapter{
                     }
                 }
             };
-            dialog.text("All your records will save by your previous name");
+            dialog.text("All your previous records will save by your previous name");
             dialog.addActor(textField);
             dialog.button("OK", 1L);
             dialog.button("Cancel", 2L);
@@ -79,7 +78,7 @@ public class MyDialogWindow extends ApplicationAdapter{
                         System.out.println("Yes");
                         Gdx.input.setInputProcessor(SettingsScreen.stage);
                         SettingsScreen.rend = false;
-                        // Reset Records
+                        ResultsScreen.removePrefs();
                     } else {
                         System.out.println("No");
                         Gdx.input.setInputProcessor(SettingsScreen.stage);
@@ -90,6 +89,27 @@ public class MyDialogWindow extends ApplicationAdapter{
             dialog.text("You can't recover your records!");
             dialog.button("Yes", 1L);
             dialog.button("No", 2L);
+        }
+        if(name.equals("start")){
+            textField = new TextField("", skin);
+            dialog = new Dialog("Enter your name", skin) {
+                protected void result(Object object) {
+                    if (object.equals(1L)) {
+                        System.out.println("OK");
+                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        ResultsScreen.name = textField.getText();
+                        SettingsScreen.rend = false;
+                    } else {
+                        System.out.println("Cancel");
+                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        SettingsScreen.rend = false;
+                    }
+                }
+            };
+            dialog.text("All your records will save by this name");
+            dialog.addActor(textField);
+            dialog.button("OK", 1L);
+            dialog.button("Cancel", 2L);
         }
     }
 }
