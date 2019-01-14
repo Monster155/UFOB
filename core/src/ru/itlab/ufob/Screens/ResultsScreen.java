@@ -26,11 +26,15 @@ public class ResultsScreen implements Screen {
     Vector2 pos;
     BitmapFont font;
     GlyphLayout glyphLayout;
+    MyDialogWindow mydw;
 
     public ResultsScreen() {
+        mydw = new MyDialogWindow();
         prefs = Gdx.app.getPreferences("Preferences");
-        if ((prefs.getLong("First" + "s", 0)) == 0)
-            generatePrefs();//Нужно связать создание DW и создание таблицы, но чтобы они шли друг за другом
+        if ((prefs.getLong(nums[0] + "s", 0)) == 0) {
+            mydw.create("start", MenuScreen.stage);
+            generatePrefs();
+        }
     }
 
     @Override
@@ -129,6 +133,9 @@ public class ResultsScreen implements Screen {
         prefs.putString(nums[7], "Kirill").flush();
         prefs.putLong(nums[8] + "s", 47).flush();
         prefs.putString(nums[8], "Ayrat").flush();
+
+        prefs.putLong(nums[9] + "s", 0).flush();
+        prefs.putString(nums[9], name).flush();
     }
 
     public static void removePrefs(){

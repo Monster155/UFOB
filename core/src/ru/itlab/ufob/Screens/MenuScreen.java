@@ -30,16 +30,13 @@ public class MenuScreen implements Screen {
     Texture texture;
     TextureAtlas atlas;
     Skin skin;
-    Stage stage;
+    static Stage stage;
     public static int screen;
     float btnScale, width, height;
-    static MyDialogWindow mydw;
-    boolean rend = false;
 
     @Override
     public void show(){
         stage = new Stage();
-        mydw = new MyDialogWindow();
         Gdx.input.setInputProcessor(stage);
         texture = new Texture("masterpiece.png");
         Constants.Scale = Gdx.graphics.getHeight() * texture.getWidth() / texture.getHeight();
@@ -74,7 +71,6 @@ public class MenuScreen implements Screen {
                 Gdx.graphics.getHeight());
         stage.getBatch().end();
         stage.draw();
-        if(rend)mydw.render();
     }
 
     @Override

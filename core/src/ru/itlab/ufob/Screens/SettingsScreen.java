@@ -87,7 +87,7 @@ public class SettingsScreen implements Screen {
         imageButton.addListener(new ChangeListener(){
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SettingsScreen.mydw.create(actor.getName());
+                SettingsScreen.mydw.create(actor.getName(), stage);
             }
         });
         stage.addActor(imageButton);

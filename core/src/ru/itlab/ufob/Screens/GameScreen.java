@@ -118,7 +118,7 @@ public class GameScreen implements Screen {
         stage = new Stage();
         joystick = new Joystick(stage.getCamera());
 
-        for(int i = 0; i < MaxEnemy; i++) //TODO 2
+        for(int i = 0; i < MaxEnemy; i++) //TODO make more interesting II
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
 
         SCORE = 0;

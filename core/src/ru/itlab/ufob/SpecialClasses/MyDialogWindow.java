@@ -21,11 +21,13 @@ public class MyDialogWindow extends ApplicationAdapter{
     Stage stage;
     TextureAtlas atlas;
     TextField textField;
+    Stage stageAnother;
 
-    public void create(String name) {
+    public void create(String name, Stage stageAnother) {
         atlas = new TextureAtlas(Gdx.files.internal("uiskin/uiskin.atlas"));
         skin = new Skin(Gdx.files.internal("uiskin/skin.json"), atlas);
         stage = new Stage();
+        this.stageAnother = stageAnother;
         createDialog(name);
         dialog.scaleBy(Gdx.graphics.getHeight() / 640 * 1.5f);
         dialog.setPosition(Gdx.graphics.getWidth()/2-dialog.getWidth()/2, Gdx.graphics.getHeight()/2-dialog.getWidth()/2);
@@ -55,12 +57,13 @@ public class MyDialogWindow extends ApplicationAdapter{
                 protected void result(Object object) {
                     if (object.equals(1L)) {
                         System.out.println("OK");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
+                        textField = (TextField) stage.getKeyboardFocus();
                         ResultsScreen.name = textField.getText(); //Всё работает, кроме этого присваивания
                         SettingsScreen.rend = false;
                     } else {
                         System.out.println("Cancel");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
                 }
@@ -76,12 +79,12 @@ public class MyDialogWindow extends ApplicationAdapter{
                 protected void result(Object object) {
                     if (object.equals(1L)) {
                         System.out.println("Yes");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                         ResultsScreen.removePrefs();
                     } else {
                         System.out.println("No");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
                 }
@@ -96,12 +99,12 @@ public class MyDialogWindow extends ApplicationAdapter{
                 protected void result(Object object) {
                     if (object.equals(1L)) {
                         System.out.println("OK");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
                         ResultsScreen.name = textField.getText();
                         SettingsScreen.rend = false;
                     } else {
                         System.out.println("Cancel");
-                        Gdx.input.setInputProcessor(SettingsScreen.stage);
+                        Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
                 }
