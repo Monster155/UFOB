@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
-
+//TODO: AdMob
 public class MainActivity extends Game {
 
     public GameScreen gs;
