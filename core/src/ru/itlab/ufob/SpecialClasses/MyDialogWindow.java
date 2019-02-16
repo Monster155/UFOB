@@ -66,6 +66,7 @@ public class MyDialogWindow extends ApplicationAdapter{
                         Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
+                    dispose();
                 }
             };
             dialog.text("All your previous records will save by your previous name");
@@ -87,6 +88,7 @@ public class MyDialogWindow extends ApplicationAdapter{
                         Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
+                    dispose();
                 }
             };
             dialog.text("You can't recover your records!");
@@ -107,6 +109,7 @@ public class MyDialogWindow extends ApplicationAdapter{
                         Gdx.input.setInputProcessor(stageAnother);
                         SettingsScreen.rend = false;
                     }
+                    dispose();
                 }
             };
             dialog.text("All your records will save by this name");

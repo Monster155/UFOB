@@ -25,6 +25,7 @@ import ru.itlab.ufob.SpecialClasses.Camera;
 import ru.itlab.ufob.Characters.Enemy;
 import ru.itlab.ufob.SpecialClasses.Joystick;
 import ru.itlab.ufob.Characters.Player;
+import ru.itlab.ufob.SpecialClasses.SoundSystem;
 import ru.itlab.ufob.Utils.TiledObjectUtil;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
@@ -48,6 +49,7 @@ public class GameScreen implements Screen {
     double reload;
     Stage stage;
     Joystick joystick;
+    SoundSystem soundSystem;
 
     @Override
     public void show() {
@@ -121,6 +123,8 @@ public class GameScreen implements Screen {
         for(int i = 0; i < MaxEnemy; i++) //TODO make more interesting II
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
 
+        soundSystem = new SoundSystem();
+
         SCORE = 0;
     }
 
@@ -136,6 +140,8 @@ public class GameScreen implements Screen {
                 && MathUtils.nanoToSec*(TimeUtils.nanoTime()-reload)*SHOOT_RATE >= 1){
             reload = TimeUtils.nanoTime();
             bullets.add(new Bullet(player.bulletRot, world, player.body.getBody().getPosition()));
+            //TODO xx
+            soundSystem.playSound("shoot1", false);
         }
         for(Bullet bullet : bullets){
             bullet.update(delta);

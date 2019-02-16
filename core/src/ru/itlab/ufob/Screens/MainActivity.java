@@ -3,11 +3,13 @@ package ru.itlab.ufob.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
+import ru.itlab.ufob.SpecialClasses.SoundSystem;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
 //TODO: AdMob
@@ -22,6 +24,8 @@ public class MainActivity extends Game {
     Music mainMusic, GOMusic;
     long tutor;
     long time;
+    Preferences prefs;
+    SoundSystem soundSystem;
 
     @Override
     public void create() {
@@ -32,9 +36,10 @@ public class MainActivity extends Game {
         ts = new TutorialScreen();
         rs = new ResultsScreen();
         ss = new SettingsScreen();
-        GOMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Title theme.mp3"));
-        mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Abandon ship.mp3"));
-        music(true, mainMusic);
+        prefs = Gdx.app.getPreferences("Settings");
+        soundSystem = new SoundSystem();
+        prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
+        soundSystem.playSound("playTheme", true);
         setScreen(ms);
     }
 
@@ -46,8 +51,8 @@ public class MainActivity extends Game {
                 case 1:
                     setScreen(gs);
                     ms.dispose();
-                    music(false, mainMusic);
-                    music(true, GOMusic);
+                    prefs.putBoolean("playTheme", false).flush(); // true for Menu Music
+                    soundSystem.playSound("playTheme", true);
                     Gdx.app.log("ChangeScreen", "GameScreen");
                     break;
                 case 2:
@@ -72,8 +77,8 @@ public class MainActivity extends Game {
         if(isEscape() && getScreen().equals(gs)) {
             setScreen(gos);
             gs.dispose();
-            music(false, GOMusic);
-            music(true, mainMusic);
+            prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
+            soundSystem.playSound("playTheme", true);
             time = TimeUtils.nanoTime();
         }
         if((Gdx.input.isTouched() || isEscape()) && getScreen().equals(ts)
@@ -95,22 +100,13 @@ public class MainActivity extends Game {
             Gdx.app.log("Screens", "GameOverScreen");
             setScreen(gos);
             gs.dispose();
-            music(false, GOMusic);
-            music(true, mainMusic);
+            prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
+            soundSystem.playSound("playTheme", true);
             time = TimeUtils.nanoTime();
         }
         if(isEscape() && getScreen().equals(ss)){
             setScreen(ms);
             ss.dispose();
-        }
-    }
-
-    public void music(boolean begin, Music music) {
-        if (begin) {
-            music.setLooping(true);
-            music.play();
-        } else {
-            music.stop();
         }
     }
 
