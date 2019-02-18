@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
+import ru.itlab.ufob.SpecialClasses.SoundSystem;
 
 public class SettingsScreen implements Screen {
 
@@ -22,6 +23,11 @@ public class SettingsScreen implements Screen {
     static MyDialogWindow mydw;
     Preferences prefs;
     public static boolean rend = false;
+    SoundSystem soundSys;
+
+    public SettingsScreen(SoundSystem soundSystem){
+        soundSys = soundSystem;
+    }
 
     @Override
     public void show() {
@@ -114,8 +120,10 @@ public class SettingsScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Preferences prefs = Gdx.app.getPreferences("Settings");
-                if(actor.getName().equals("music"))
+                if(actor.getName().equals("music")) {
                     prefs.putBoolean("music", !prefs.getBoolean("music")).flush();
+                    soundSys.playSound("playTheme", true);
+                }
                 if(actor.getName().equals("sound"))
                     prefs.putBoolean("sound", !prefs.getBoolean("sound")).flush();
                 Gdx.app.log("Settings", actor.getName()+" changed");

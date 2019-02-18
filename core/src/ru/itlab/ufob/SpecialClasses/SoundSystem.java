@@ -32,15 +32,18 @@ public class SoundSystem {
                 if(canPlay(isMusic))shoot1.play();
                 break;
             case "playTheme":
-                if(prefs.getBoolean("playTheme")){
-                    playThemeMenu.play();
+                if(!canPlay(isMusic)) {
+                    playThemeMenu.pause();
                     playThemeGame.stop();
-                    if(!canPlay(isMusic))playThemeMenu.stop();
-                }else{
-                    playThemeMenu.stop();
-                    playThemeGame.play();
-                    if(!canPlay(isMusic))playThemeGame.stop();
-                }
+                    Gdx.app.log("Test", "Success");
+                } else
+                    if(prefs.getBoolean("playTheme")){
+                        playThemeMenu.play();
+                        playThemeGame.stop();
+                    }else{
+                        playThemeMenu.pause();
+                        playThemeGame.play();
+                    }
                 break;
         }
         //TODO сократить время музыки, т.к. за 3 выстрела играет только 1 раз

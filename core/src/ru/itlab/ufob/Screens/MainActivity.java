@@ -35,9 +35,9 @@ public class MainActivity extends Game {
         gos = new GameOverScreen();
         ts = new TutorialScreen();
         rs = new ResultsScreen();
-        ss = new SettingsScreen();
-        prefs = Gdx.app.getPreferences("Settings");
         soundSystem = new SoundSystem();
+        ss = new SettingsScreen(soundSystem);
+        prefs = Gdx.app.getPreferences("Settings");
         prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
         soundSystem.playSound("playTheme", true);
         setScreen(ms);
