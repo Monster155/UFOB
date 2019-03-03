@@ -115,31 +115,20 @@ public class ResultsScreen implements Screen {
     }
 
     public static void generatePrefs() {
-        prefs.putLong(nums[0] + "s", 135).flush();
-        prefs.putString(nums[0], "Bulat").flush();
-        prefs.putLong(nums[1] + "s", 114).flush();
-        prefs.putString(nums[1], "Leonid").flush();
-        prefs.putLong(nums[2] + "s", 105).flush();
-        prefs.putString(nums[2], "Damir").flush();
-        prefs.putLong(nums[3] + "s", 94).flush();
-        prefs.putString(nums[3], "Kamilya").flush();
-        prefs.putLong(nums[4] + "s", 87).flush();
-        prefs.putString(nums[4], "Andrey").flush();
-        prefs.putLong(nums[5] + "s", 73).flush();
-        prefs.putString(nums[5], "Katya").flush();
-        prefs.putLong(nums[6] + "s", 60).flush();
-        prefs.putString(nums[6], "Amir").flush();
-        prefs.putLong(nums[7] + "s", 59).flush();
-        prefs.putString(nums[7], "Kirill").flush();
-        prefs.putLong(nums[8] + "s", 47).flush();
-        prefs.putString(nums[8], "Ayrat").flush();
-
-        prefs.putLong(nums[9] + "s", 0).flush();
-        prefs.putString(nums[9], name).flush();
+        int scores[] = new int[]{198, 150, 135, 114, 105, 94, 87, 73, 60};
+        String names[] = new String[]{"Damir", "Vadim", "Bulat", "Leonid", "Kirill", "Kamilya", "Ayrat", "Katya", "Amir"};
+        for(int i = 0; i < 9; i++)
+            addToPrefs(i, scores[i], names[i]);
+        addToPrefs(9, 0, name);
     }
 
     public static void removePrefs(){
         prefs.clear();
         generatePrefs();
+    }
+
+    private static void addToPrefs(int i, int score, String name){
+        prefs.putLong(nums[i] + "s", score).flush();
+        prefs.putString(nums[i], name).flush();
     }
 }
