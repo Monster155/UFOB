@@ -26,6 +26,7 @@ import ru.itlab.ufob.Characters.Enemy;
 import ru.itlab.ufob.SpecialClasses.Joystick;
 import ru.itlab.ufob.Characters.Player;
 import ru.itlab.ufob.SpecialClasses.SoundSystem;
+import ru.itlab.ufob.SpecialClasses.UI;
 import ru.itlab.ufob.Utils.TiledObjectUtil;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
@@ -50,6 +51,7 @@ public class GameScreen implements Screen {
     Stage stage;
     Joystick joystick;
     SoundSystem soundSystem;
+    UI userInterface;
 
     @Override
     public void show() {
@@ -119,6 +121,7 @@ public class GameScreen implements Screen {
 
         stage = new Stage();
         joystick = new Joystick(stage.getCamera());
+        userInterface = new UI();
 
         for(int i = 0; i < MaxEnemy; i++) //TODO make more interesting II
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
@@ -158,6 +161,7 @@ public class GameScreen implements Screen {
                 SCORE++;
             }
         }
+        userInterface.act(delta);
         //Render
         Gdx.gl.glClearColor(94f/256,63f/256,107f/256,256f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -171,6 +175,7 @@ public class GameScreen implements Screen {
             enemy.render(batch);
         player.render(batch);
         joystick.draw(batch);
+        userInterface.draw(batch);
         batch.end();
     }
 
@@ -192,6 +197,7 @@ public class GameScreen implements Screen {
         map.dispose();
         batch.dispose();
         joystick.dispose();
+        userInterface.dispose();
         enemies.clear();
         bullets.clear();
         LIVES = MAXLIVES;
