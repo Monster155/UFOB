@@ -3,6 +3,7 @@ package ru.itlab.ufob.Characters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,7 @@ import ru.itlab.ufob.Utils.Constants;
 import ru.itlab.ufob.Utils.Utils;
 
 import static ru.itlab.ufob.Utils.Constants.E_SPEED;
+import static ru.itlab.ufob.Utils.Constants.L_SIZE;
 import static ru.itlab.ufob.Utils.Constants.SIZE;
 
 public class Enemy {
@@ -28,6 +30,7 @@ public class Enemy {
     public int live = 5;
     String path;
     public long change = TimeUtils.nanoTime() - 10;
+    TextureRegion textureRegion;
 
     public Enemy(World world, Vector2 pos){
         this.world = world;
@@ -41,6 +44,7 @@ public class Enemy {
         }
         Gdx.app.log("Path for Enemy", path+"");
         texture = new Texture(path + "1.png");
+        textureRegion = new TextureRegion(new Texture("progressbar.png"),250,49);
     }
 
     public void update(float delta, Vector2 pos){
@@ -62,6 +66,11 @@ public class Enemy {
                 body.getBody().getPosition().y - SIZE.y/2,
                 SIZE.x,
                 SIZE.y);
+        batch.draw(textureRegion,
+                body.getBody().getPosition().x - SIZE.x/2,
+                body.getBody().getPosition().y + SIZE.y*3/4,
+                L_SIZE.x*live/5,
+                L_SIZE.y);
     }
 
     public Vector2 rand(Vector2 pos){

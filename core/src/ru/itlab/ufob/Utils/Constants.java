@@ -10,6 +10,7 @@ public final class Constants {
     public static long SCORE = 0;
     public static final Vector2 SIZE = new Vector2(32 / PPM, 32 / PPM);
     public static final Vector2 B_SIZE = new Vector2(SIZE.x / 2, SIZE.y / 2);
+    public static final Vector2 L_SIZE = new Vector2(SIZE.x, SIZE.y / 3);
     public static final int MAXLIVES = 10;
     public static int LIVES = MAXLIVES; // Всегда должно быть чётным числом!!! И его нужно обновлять в GameScreen
     public static final float E_SPEED = C_SPEED * 1.1f;
