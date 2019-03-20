@@ -23,10 +23,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import ru.itlab.ufob.Characters.Bullet;
 import ru.itlab.ufob.SpecialClasses.Camera;
 import ru.itlab.ufob.Characters.Enemy;
-import ru.itlab.ufob.SpecialClasses.Joystick;
+import ru.itlab.ufob.SpecialClasses.UserInterface;
 import ru.itlab.ufob.Characters.Player;
 import ru.itlab.ufob.SpecialClasses.SoundSystem;
-import ru.itlab.ufob.SpecialClasses.UI;
 import ru.itlab.ufob.Utils.TiledObjectUtil;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
@@ -47,17 +46,16 @@ public class GameScreen implements Screen {
     TiledMap map;
     OrthogonalTiledMapRenderer tmr;
     Box2DDebugRenderer b2dr;
-    double reload;
+    double lastShootTime;
     Stage stage;
-    Joystick joystick;
+    UserInterface userInterface;
     SoundSystem soundSystem;
-    UI userInterface;
 
     @Override
     public void show() {
         Gdx.gl.glClearColor(94f/256,63f/256,107f/256,256f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        reload = 0;
+        lastShootTime = 0;
         world = new World(new Vector2(0,0), false);
         world.setContactListener(new ContactListener() {
             @Override
@@ -68,24 +66,32 @@ public class GameScreen implements Screen {
                 if((fa.getUserData().equals("bullet") && fb.getUserData().equals( "enemy"))
                         || (fb.getUserData().equals("bullet") && fa.getUserData().equals("enemy"))) {
                     for(Bullet bullet : bullets)
-                        if(bullet.body == fa || bullet.body == fb)
+                        if(bullet.body == fa || bullet.body == fb) {
                             bullet.inGame = false;
+                            break;
+                        }
                     for(Enemy enemy : enemies)
-                        if(enemy.body == fa || enemy.body == fb)
+                        if(enemy.body == fa || enemy.body == fb) {
                             enemy.damaged();
+                            break;
+                        }
                     SCORE++;
                 }
                 if((fa.getUserData().equals("world") && fb.getUserData().equals("bullet"))
                         || (fb.getUserData().equals("world") && fa.getUserData().equals("bullet"))){
                     for(Bullet bullet : bullets)
-                        if(bullet.body == fa || bullet.body == fb)
+                        if(bullet.body == fa || bullet.body == fb) {
                             bullet.inGame = false;
+                            break;
+                        }
                 }
                 if((fa.getUserData().equals("world") && fb.getUserData().equals("enemy"))
                         || (fb.getUserData().equals("world") && fa.getUserData().equals("enemy"))){
                     for(Enemy enemy : enemies)
-                        if (enemy.body == fa || enemy.body == fb)
+                        if (enemy.body == fa || enemy.body == fb) {
                             enemy.calcRot(player.body.getBody().getPosition());
+                            break;
+                        }
                 }
                 if((fa.getUserData().equals("player") && fb.getUserData().equals("enemy"))
                         || (fb.getUserData().equals("player") && fa.getUserData().equals("enemy"))){
@@ -96,6 +102,7 @@ public class GameScreen implements Screen {
                                 enemy.rot.y *= -1;
                             }
                             enemy.change = TimeUtils.nanoTime()+3;
+                            break;
                         }
                     player.damaged();
                 }
@@ -120,8 +127,7 @@ public class GameScreen implements Screen {
         Gdx.app.log("SIZE", Gdx.graphics.getWidth()+" "+Gdx.graphics.getHeight());
 
         stage = new Stage();
-        joystick = new Joystick(stage.getCamera());
-        userInterface = new UI();
+        userInterface = new UserInterface(stage.getCamera());
 
         for(int i = 0; i < MaxEnemy; i++) //TODO make more interesting II
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
@@ -135,13 +141,13 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         //Update
         world.step(1 / 60f, 6, 2);
-        joystick.act(delta);
+        userInterface.act(delta);
         player.update(delta);
         camera.update(delta);
         tmr.setView(camera.camera);
         if((player.bulletRot.x != 0 || player.bulletRot.y != 0)
-                && MathUtils.nanoToSec*(TimeUtils.nanoTime()-reload)*SHOOT_RATE >= 1){
-            reload = TimeUtils.nanoTime();
+                && MathUtils.nanoToSec*(TimeUtils.nanoTime()-lastShootTime)*SHOOT_RATE >= 1){
+            lastShootTime = TimeUtils.nanoTime();
             bullets.add(new Bullet(player.bulletRot, world, player.body.getBody().getPosition()));
             //TODO xx
             soundSystem.playSound("shoot1", false);
@@ -174,7 +180,7 @@ public class GameScreen implements Screen {
         for(Enemy enemy : enemies)
             enemy.render(batch);
         player.render(batch);
-        joystick.draw(batch);
+        userInterface.draw(batch);
         userInterface.draw(batch);
         batch.end();
     }
@@ -196,7 +202,6 @@ public class GameScreen implements Screen {
         tmr.dispose();
         map.dispose();
         batch.dispose();
-        joystick.dispose();
         userInterface.dispose();
         enemies.clear();
         bullets.clear();

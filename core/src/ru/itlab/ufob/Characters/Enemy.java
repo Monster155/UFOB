@@ -5,15 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.TimeUtils;
 
-import java.util.Objects;
-
-import ru.itlab.ufob.Utils.Constants;
 import ru.itlab.ufob.Utils.Utils;
 
 import static ru.itlab.ufob.Utils.Constants.E_SPEED;
@@ -48,7 +44,7 @@ public class Enemy {
     }
 
     public void update(float delta, Vector2 pos){
-        if(MathUtils.nanoToSec*(TimeUtils.nanoTime()-change) > (int)(Math.random()*3+2)) {
+        if(MathUtils.nanoToSec*(TimeUtils.nanoTime()-change) > (int)(Math.random()*3+2)){
             calcRot(pos);
             change = TimeUtils.nanoTime();
         }

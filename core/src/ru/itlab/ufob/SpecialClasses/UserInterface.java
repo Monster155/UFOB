@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -16,22 +17,28 @@ import static java.lang.Math.hypot;
 import static ru.itlab.ufob.Utils.Constants.LIVES;
 import static ru.itlab.ufob.Utils.Constants.MAXLIVES;
 import static ru.itlab.ufob.Utils.Constants.PPM;
+import static ru.itlab.ufob.Utils.Constants.SCORE;
 import static ru.itlab.ufob.Utils.Constants.SIZE;
 
-public class Joystick{
+public class UserInterface {
 
     Camera camera;
     Vector3 touchPos/*For Left*/, touchPos2/*For Right*/;
     Vector2 ciSize/*For Circle(white)*/, cuSize/*For Cursor(red)*/;
 
     float scale;//For different screen sizes
+    int fingers = 2;//max num of fingers on the screen
 
     String lifePath = "lifes/hudHeart_";
     private Texture circleTex, cursorTex, lifeTexture[];
     private Sprite circleSp, cursorSp;
 
-    public Joystick(Camera camera) {
+    double time;
+    float xScore;
+    BitmapFont font;
+    GlyphLayout glyphLayoutScore, glyphLayoutTime;
 
+    public UserInterface(Camera camera) {
         this.camera = camera;
         circleTex = new Texture("Controller/joystick.png");
         cursorTex = new Texture("Controller/button.png");
@@ -51,6 +58,18 @@ public class Joystick{
         for(int i = 0; i < lifeTexture.length; i++){
             lifeTexture[i] = new Texture(lifePath+"full.png");
         }
+        //score and time
+        font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
+        font.getData().setScale(Gdx.graphics.getWidth() / 2560f);
+
+        glyphLayoutScore = new GlyphLayout();
+        glyphLayoutTime = new GlyphLayout();
+
+        glyphLayoutScore.setText(font, "Your score: XXX");
+        xScore = glyphLayoutScore.width;
+
+        glyphLayoutScore.setText(font, "Your score: 0");
+        glyphLayoutTime.setText(font, "Your time: 0");
     }
 
     public void act(float delta) {
@@ -59,9 +78,9 @@ public class Joystick{
         touchPos2 = new Vector3(Gdx.graphics.getWidth()-scale/2,scale/2,0);
         Constants.gunCS = new Vector2(0,0);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < fingers; i++) {
             if (Gdx.input.isTouched(i)) {
-                if(Gdx.input.getX(i) < Gdx.graphics.getWidth()/2) { //Left Joystick
+                if(Gdx.input.getX(i) < Gdx.graphics.getWidth()/2) { //Left UserInterface
                     touchPos.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
                     camera.unproject(touchPos);
                     Vector2 tP = new Vector2(touchPos.x - ciSize.x/2, touchPos.y - ciSize.y/2);
@@ -89,7 +108,7 @@ public class Joystick{
                     }
 
                     Constants.stickCS = new Vector2(cosX, sinY);
-                } else { //Right Joystick
+                } else { //Right UserInterface
                     touchPos2.set(Gdx.input.getX(i), Gdx.input.getY(i), 0);
                     camera.unproject(touchPos2);
 
@@ -123,7 +142,7 @@ public class Joystick{
             }
         }
 
-        hearts();
+        ui(delta);
     }
 
     public void draw(Batch batch) {
@@ -139,6 +158,14 @@ public class Joystick{
                     lifeTexture[i].getWidth()*Gdx.graphics.getWidth()/Constants.CamScale.x,
                     lifeTexture[i].getHeight()*Gdx.graphics.getHeight()/Constants.CamScale.y);
         }
+        font.draw(batch, //right position
+                glyphLayoutScore,
+                Gdx.graphics.getWidth() - xScore,
+                Gdx.graphics.getHeight() - glyphLayoutScore.height);
+        font.draw(batch, //center position (left - lives)
+                glyphLayoutTime,
+                Gdx.graphics.getWidth()/2 - glyphLayoutTime.width/2,
+                Gdx.graphics.getHeight() - glyphLayoutTime.height);
     }
 
     public void dispose() {
@@ -146,9 +173,13 @@ public class Joystick{
         cursorTex.dispose();
         for(int i = 0; i < lifeTexture.length; i++)
             lifeTexture[i].dispose();
+        font.dispose();
+        glyphLayoutScore.reset();
+        glyphLayoutTime.reset();
     }
 
-    public void hearts(){
+    public void ui(float delta){
+        //hearts
         for(int i = 0; i < MAXLIVES/2; i++)
             lifeTexture[i].dispose();
         if(LIVES % 2 == 0){
@@ -163,5 +194,9 @@ public class Joystick{
             for(int i = LIVES/2+1; i < MAXLIVES/2; i++)
                 lifeTexture[i] = new Texture(lifePath+"empty.png");
         }
+        //score and time
+        time+=delta;
+        glyphLayoutScore.setText(font, "Your score: "+SCORE);
+        glyphLayoutTime.setText(font, "Your time: "+(int)time);
     }
 }

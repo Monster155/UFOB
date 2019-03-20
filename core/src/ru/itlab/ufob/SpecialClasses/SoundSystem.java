@@ -29,8 +29,10 @@ public class SoundSystem {
     public void playSound(String musicName, boolean isMusic){
         switch (musicName){
             case "shoot1":
-                if(canPlay(isMusic))shoot1.play();
-                if(shoot1.isPlaying())shoot1.stop();shoot1.play();
+                if(canPlay(isMusic)){
+                    shoot1.stop();
+                    shoot1.play();
+                }
                 break;
             case "playTheme":
                 if(!canPlay(isMusic)) {
