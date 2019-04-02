@@ -26,6 +26,7 @@ import ru.itlab.ufob.Characters.Enemy;
 import ru.itlab.ufob.SpecialClasses.UserInterface;
 import ru.itlab.ufob.Characters.Player;
 import ru.itlab.ufob.SpecialClasses.SoundSystem;
+import ru.itlab.ufob.Utils.Constants;
 import ru.itlab.ufob.Utils.TiledObjectUtil;
 
 import static ru.itlab.ufob.Utils.Constants.LIVES;
@@ -143,18 +144,17 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
         userInterface.act(delta);
         player.update(delta);
-        camera.update(delta);
+        camera.update();
         tmr.setView(camera.camera);
-        if((player.bulletRot.x != 0 || player.bulletRot.y != 0)
+        if((Constants.gunCS.x != 0 || Constants.gunCS.y != 0)
                 && MathUtils.nanoToSec*(TimeUtils.nanoTime()-lastShootTime)*SHOOT_RATE >= 1){
             lastShootTime = TimeUtils.nanoTime();
-            bullets.add(new Bullet(player.bulletRot, world, player.body.getBody().getPosition()));
-            //TODO xx
+            bullets.add(new Bullet(Constants.gunCS, world, player.body.getBody().getPosition()));
             soundSystem.playSound("shoot1", false);
         }
         for(Bullet bullet : bullets){
             bullet.update(delta);
-            if(!bullet.inGame) {
+            if(!bullet.inGame){
                 bullets.removeValue(bullet, false);
             }
         }
@@ -162,12 +162,11 @@ public class GameScreen implements Screen {
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
         for(Enemy enemy : enemies){
             enemy.update(delta, player.body.getBody().getPosition());
-            if(!enemy.inGame) {
+            if(!enemy.inGame){
                 enemies.removeValue(enemy, true);
                 SCORE++;
             }
         }
-        userInterface.act(delta);
         //Render
         Gdx.gl.glClearColor(94f/256,63f/256,107f/256,256f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -175,12 +174,11 @@ public class GameScreen implements Screen {
         b2dr.render(world, camera.camera.combined);
         tmr.render();
         batch.begin();
-        for(Bullet bullet : bullets)
-            bullet.render(batch);
         for(Enemy enemy : enemies)
             enemy.render(batch);
+        for(Bullet bullet : bullets)
+            bullet.render(batch);
         player.render(batch);
-        userInterface.draw(batch);
         userInterface.draw(batch);
         batch.end();
     }

@@ -20,7 +20,6 @@ import static ru.itlab.ufob.Utils.Constants.SIZE;
 public class Player {
     public Fixture body;
     public Texture texture;
-    public Vector2 bulletRot;
     String path = "PNG/blue";
 
 
@@ -39,8 +38,19 @@ public class Player {
     }
 
     public void update(float delta){
-        move(delta);
-        bulletRot = new Vector2(Constants.gunCS.x, Constants.gunCS.y);
+        float x = Constants.stickCS.x, y = Constants.stickCS.y;
+        //for tests on computer
+        if(Gdx.input.isKeyPressed(Input.Keys.A))
+            x--;
+        if(Gdx.input.isKeyPressed(Input.Keys.D))
+            x++;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W))
+            y++;
+        if(Gdx.input.isKeyPressed(Input.Keys.S))
+            y--;
+
+        body.getBody().setLinearVelocity(delta*C_SPEED*x, delta*C_SPEED*y);
     }
 
     public void damaged(){
@@ -56,24 +66,6 @@ public class Player {
             Gdx.app.log("Game", "Game Over");
         }
     }
-
-    public void move(float delta){
-        float x = Constants.stickCS.x, y = Constants.stickCS.y;
-        if(Gdx.input.isKeyPressed(Input.Keys.A))
-            x--;
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-            x++;
-
-        if(Gdx.input.isKeyPressed(Input.Keys.W))
-            y++;
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-            y--;
-
-        body.getBody().setLinearVelocity(delta*C_SPEED*x, delta*C_SPEED*y);
-    }
-
-
-
 
     public void dispose(){
         texture.dispose();

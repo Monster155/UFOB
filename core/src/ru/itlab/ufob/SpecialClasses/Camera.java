@@ -20,12 +20,8 @@ public class Camera {
         camera.setToOrtho(false, CamScale.x / PPM / 1.75f, CamScale.y / PPM / 1.75f);
     }
 
-    public void update(float delta){
-        Vector3 position = camera.position;
-        position.x = player.body.getBody().getPosition().x;
-        position.y = player.body.getBody().getPosition().y;
-        camera.position.set(position);
-
+    public void update(){
+        camera.position.set(new Vector3(player.body.getBody().getPosition(), camera.position.z));
         camera.update();
     }
 }

@@ -20,13 +20,12 @@ public class Enemy {
 
     public Fixture body;
     World world;
-    Texture texture;
+    Texture texture, lifeTexture;
     public Vector2 rot = new Vector2(0,0);
     public boolean inGame = true;
     public int live = 5;
     String path;
-    public long change = TimeUtils.nanoTime() - 10;
-    TextureRegion textureRegion;
+    public long change = TimeUtils.nanoTime() - 10, timeToChange = (int)(Math.random()*2+2);
 
     public Enemy(World world, Vector2 pos){
         this.world = world;
@@ -40,13 +39,14 @@ public class Enemy {
         }
         Gdx.app.log("Path for Enemy", path+"");
         texture = new Texture(path + "1.png");
-        textureRegion = new TextureRegion(new Texture("progressbar.png"),250,49);
+        lifeTexture = new Texture("lifeline.png");
     }
 
     public void update(float delta, Vector2 pos){
-        if(MathUtils.nanoToSec*(TimeUtils.nanoTime()-change) > (int)(Math.random()*3+2)){
+        if(MathUtils.nanoToSec*(TimeUtils.nanoTime()-change) > timeToChange){
             calcRot(pos);
             change = TimeUtils.nanoTime();
+            timeToChange = (int)(Math.random()*2+2);
         }
         body.getBody().setLinearVelocity(delta*E_SPEED*rot.x, delta*E_SPEED*rot.y);
         if(!inGame){
@@ -62,7 +62,7 @@ public class Enemy {
                 body.getBody().getPosition().y - SIZE.y/2,
                 SIZE.x,
                 SIZE.y);
-        batch.draw(textureRegion,
+        batch.draw(lifeTexture,
                 body.getBody().getPosition().x - SIZE.x/2,
                 body.getBody().getPosition().y + SIZE.y*3/4,
                 L_SIZE.x*live/5,

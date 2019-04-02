@@ -1,13 +1,10 @@
 package ru.itlab.ufob.Characters;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Pool;
 
 import ru.itlab.ufob.Utils.Utils;
 
@@ -23,9 +20,9 @@ public class Bullet{
     Texture texture;
     public boolean inGame = true;
 
+    //Конструктор класса, вызывается при выстреле - создает пулю
     public Bullet(Vector2 rot, World world, Vector2 pos){
         this.world = world;
-        //Конструктор класса, вызывается при выстреле - создает пулю
         this.rot = rot;
         body = Utils.createBox(world, check(pos), B_SIZE.x, B_SIZE.y,
                 false, "bullet", (short)-2);

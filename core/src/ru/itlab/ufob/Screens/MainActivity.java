@@ -21,7 +21,6 @@ public class MainActivity extends Game {
     public MenuScreen ms;
     public TutorialScreen ts;
     public ResultsScreen rs;
-    Music mainMusic, GOMusic;
     long tutor;
     long time;
     Preferences prefs;

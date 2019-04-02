@@ -110,7 +110,7 @@ public class SettingsScreen implements Screen {
                 SettingsScreen.mydw.create(actor.getName(), stage);
             }
         });
-//        table.add(imageButton);
+        //table.add(imageButton);
         stage.addActor(imageButton);
     }
 
@@ -140,7 +140,7 @@ public class SettingsScreen implements Screen {
             }
         });
         updateBooleanButton(imageButton, text);
-//        table.add(imageButton);
+        //table.add(imageButton);
         stage.addActor(imageButton);
     }
     public void updateBooleanButton(ImageButton button, String text){

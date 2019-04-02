@@ -70,9 +70,9 @@ public class MyDialogWindow extends ApplicationAdapter{
                 }
             };
             dialog.text("All your previous records will save by your previous name");
-            dialog.addActor(textField);
-            dialog.button("OK", 1L);
-            dialog.button("Cancel", 2L);
+            dialog.add(textField);
+//            dialog.button("OK", 1L);
+//            dialog.button("Cancel", 2L); //TODO solve this (dialog, mydw)
         }
         if(name.equals("delete")){
             SettingsScreen.rend = true;
@@ -92,8 +92,8 @@ public class MyDialogWindow extends ApplicationAdapter{
                 }
             };
             dialog.text("You can't recover your records!");
-            dialog.button("Yes", 1L);
-            dialog.button("No", 2L);
+//            dialog.button("Yes", 1L);
+//            dialog.button("No", 2L);
         }
         if(name.equals("start")){
             textField = new TextField("", skin);
@@ -114,8 +114,10 @@ public class MyDialogWindow extends ApplicationAdapter{
             };
             dialog.text("All your records will save by this name");
             dialog.addActor(textField);
-            dialog.button("OK", 1L);
-            dialog.button("Cancel", 2L);
+//            dialog.button("OK", 1L);
+//            dialog.button("Cancel", 2L);
         }
+        dialog.button("OK", 1L);
+        dialog.button("Cancel", 2L);
     }
 }

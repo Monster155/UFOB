@@ -18,7 +18,7 @@ public class GameOverScreen implements Screen {
     BitmapFont font;
     Texture texture;
     GlyphLayout glyphLayout;
-    float x1, x2, y1 = Constants.CamScale.y / 8, y2 = Constants.CamScale.y / 16;
+    float x1, x2, y1, y2;
     ResultsScreen rs;
 
     @Override
@@ -37,8 +37,10 @@ public class GameOverScreen implements Screen {
 
         glyphLayout.setText(font, "Your score: XXX");
         x1 = Gdx.graphics.getWidth()/2f - glyphLayout.width/2f;
+        y1 = Constants.CamScale.y / 8;
         glyphLayout.setText(font, "Tap screen to continue!");
         x2 = Gdx.graphics.getWidth()/2f - glyphLayout.width/2f;
+        y2 = Constants.CamScale.y / 16;
     }
 
     @Override

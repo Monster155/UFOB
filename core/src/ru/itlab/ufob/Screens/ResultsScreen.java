@@ -30,7 +30,7 @@ public class ResultsScreen implements Screen {
 
     public ResultsScreen() {
         mydw = new MyDialogWindow();
-        prefs = Gdx.app.getPreferences("Preferences");
+        prefs = Gdx.app.getPreferences("Records");
         if ((prefs.getLong(nums[0] + "s", 0)) == 0) {
             mydw.create("start", MenuScreen.stage);
             generatePrefs();
@@ -104,17 +104,12 @@ public class ResultsScreen implements Screen {
                 break;
             }
         }
-        for (int i = nums.length - 1; i > newPlace; i--) {
-            prefs.putLong(nums[i] + "s", prefs.getLong(nums[i - 1] + "s")).flush();
-            prefs.putString(nums[i], prefs.getString(nums[i - 1])).flush();
-        }
-        prefs.putLong(nums[newPlace] + "s", SCORE).flush();
-        prefs.putString(nums[newPlace], name).flush();
-        for (int i = 0; i < nums.length; i++)
-            Gdx.app.log("Prefs", prefs.getLong(nums[i] + "s") + " " + prefs.getString(nums[i]));
+        for (int i = nums.length - 1; i > newPlace; i--)
+            addToPrefs(i, prefs.getLong(nums[i - 1] + "s"), prefs.getString(nums[i - 1]));
+        addToPrefs(newPlace, SCORE, name);
     }
 
-    public static void generatePrefs() {
+    public static void generatePrefs(){
         int scores[] = new int[]{198, 150, 135, 114, 105, 94, 87, 73, 60};
         String names[] = new String[]{"Damir", "Vadim", "Bulat", "Leonid", "Kirill", "Kamilya", "Ayrat", "Katya", "Amir"};
         for(int i = 0; i < 9; i++)
@@ -127,7 +122,7 @@ public class ResultsScreen implements Screen {
         generatePrefs();
     }
 
-    private static void addToPrefs(int i, int score, String name){
+    private static void addToPrefs(int i, long score, String name){
         prefs.putLong(nums[i] + "s", score).flush();
         prefs.putString(nums[i], name).flush();
     }

@@ -49,9 +49,9 @@ public class MenuScreen implements Screen {
         height = Gdx.graphics.getHeight()/6f;
         width = Gdx.graphics.getWidth()/2f - btnScale*height/2f;
 
-        createImageButton(width,0, btnScale*height,height,"tutorial",3);
-        createImageButton(width,height,btnScale*height,height,"records",2);
         createImageButton(width,height*2f,btnScale*height,height,"play",1);
+        createImageButton(width,height,btnScale*height,height,"records",2);
+        createImageButton(width,0, btnScale*height,height,"tutorial",3);
         createImageButton(0,0,height, height,"settings",4);
 
         screen = 0;

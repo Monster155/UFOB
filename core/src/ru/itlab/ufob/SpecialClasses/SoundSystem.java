@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 
 public class SoundSystem {
     Music shoot1 = Gdx.audio.newMusic(Gdx.files.internal("Music/shoot1.mp3"));
+    //TODO change music for non-license
     Music playThemeGame = Gdx.audio.newMusic(Gdx.files.internal("Music/playTheme.mp3"));
     Music playThemeMenu = Gdx.audio.newMusic(Gdx.files.internal("Music/mainMenu.mp3"));
     Preferences prefs;
@@ -49,7 +50,6 @@ public class SoundSystem {
                     }
                 break;
         }
-        //TODO сократить время музыки, т.к. за 3 выстрела играет только 1 раз
         Gdx.app.log("Sound/Music", musicName);
     }
 

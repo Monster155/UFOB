@@ -15,7 +15,7 @@ public class TutorialScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        texture = new Texture("tutorial.png");
+        texture = new Texture("tutorial.png"); //TODO update image
         scale = (texture.getWidth()*Gdx.graphics.getHeight())/texture.getHeight();
     }
 

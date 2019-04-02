@@ -1,6 +1,7 @@
 package ru.itlab.ufob.SpecialClasses;
 
 public class LevelUpdater {
+    //TODO Don't forget about me!
     int numOfLevel;
     float enLiveBooster;
     float numOfEn;
