@@ -39,7 +39,7 @@ public class Enemy {
         }
         Gdx.app.log("Path for Enemy", path+"");
         texture = new Texture(path + "1.png");
-        lifeTexture = new Texture("lifeline.png");
+        lifeTexture = new Texture("lifes/lifeline.png");
     }
 
     public void update(float delta, Vector2 pos){

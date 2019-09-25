@@ -1,6 +1,7 @@
 package ru.itlab.ufob.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import ru.itlab.ufob.Characters.Bullet;
 import ru.itlab.ufob.SpecialClasses.Camera;
 import ru.itlab.ufob.Characters.Enemy;
+import ru.itlab.ufob.SpecialClasses.LevelUpdater;
+import ru.itlab.ufob.SpecialClasses.TypesOfLevels;
 import ru.itlab.ufob.SpecialClasses.UserInterface;
 import ru.itlab.ufob.Characters.Player;
 import ru.itlab.ufob.SpecialClasses.SoundSystem;
@@ -51,9 +54,11 @@ public class GameScreen implements Screen {
     Stage stage;
     UserInterface userInterface;
     SoundSystem soundSystem;
+    TypesOfLevels tol;
 
     @Override
     public void show() {
+        tol = new TypesOfLevels();
         Gdx.gl.glClearColor(94f/256,63f/256,107f/256,256f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         lastShootTime = 0;
@@ -158,7 +163,7 @@ public class GameScreen implements Screen {
                 bullets.removeValue(bullet, false);
             }
         }
-        if(enemies.size < MaxEnemy)
+        if(enemies.size < MaxEnemy && tol.isRespawn)
             enemies.add(new Enemy(world, player.body.getBody().getPosition()));
         for(Enemy enemy : enemies){
             enemy.update(delta, player.body.getBody().getPosition());

@@ -24,8 +24,8 @@ public class MyDialogWindow extends ApplicationAdapter{
     Stage stageAnother;
 
     public void create(String name, Stage stageAnother) {
-        atlas = new TextureAtlas(Gdx.files.internal("uiskin/uiskin.atlas"));
-        skin = new Skin(Gdx.files.internal("uiskin/skin.json"), atlas);
+        atlas = new TextureAtlas(Gdx.files.internal("skin/skin.atlas"));
+        skin = new Skin(Gdx.files.internal("skin/skin.json"), atlas);
         stage = new Stage();
         this.stageAnother = stageAnother;
         createDialog(name);

@@ -2,27 +2,16 @@ package ru.itlab.ufob.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-
-import ru.itlab.ufob.SpecialClasses.MyDialogWindow;
 import ru.itlab.ufob.Utils.Constants;
 
 public class MenuScreen implements Screen {
@@ -30,7 +19,7 @@ public class MenuScreen implements Screen {
     Texture texture;
     TextureAtlas atlas;
     Skin skin;
-    static Stage stage;
+    public static Stage stage;
     public static int screen;
     float btnScale, width, height;
 
@@ -55,6 +44,15 @@ public class MenuScreen implements Screen {
         createImageButton(0,0,height, height,"settings",4);
 
         screen = 0;
+
+        Skin skin = new Skin(Gdx.files.internal("skin/skin.json"));
+        SelectBox selectBox = new SelectBox(skin);
+        selectBox.setItems(new String[] {"Nonstop", "Levels"});
+        selectBox.setBounds(width+btnScale*height,height*2f,height,height);
+        selectBox.setName("SelectBox");
+        stage.addActor(selectBox);
+//        selectBox = stage.getRoot().findActor("SelectBox");
+//        Gdx.app.log("123", selectBox.getSelectedIndex()+"");
     }
 
     @Override

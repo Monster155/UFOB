@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -22,7 +23,6 @@ public class MainActivity extends Game {
     public TutorialScreen ts;
     public ResultsScreen rs;
     long tutor;
-    long time;
     Preferences prefs;
     SoundSystem soundSystem;
 
@@ -78,9 +78,8 @@ public class MainActivity extends Game {
             gs.dispose();
             prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
             soundSystem.playSound("playTheme", true);
-            time = TimeUtils.nanoTime();
         }
-        if((Gdx.input.isTouched() || isEscape()) && getScreen().equals(ts)
+        if((Gdx.input.justTouched() || isEscape()) && getScreen().equals(ts)
                 && MathUtils.nanoToSec * (TimeUtils.nanoTime() - tutor) > 0.5f) {
             setScreen(ms);
             ts.dispose();
@@ -89,8 +88,7 @@ public class MainActivity extends Game {
             setScreen(ms);
             rs.dispose();
         }
-        if ((Gdx.input.isTouched() || isEscape()) && getScreen().equals(gos)
-                && MathUtils.nanoToSec * (TimeUtils.nanoTime() - time) > 1f) {
+        if ((Gdx.input.justTouched() || isEscape()) && getScreen().equals(gos)) {
             Gdx.app.log("MainActivity", "setScreen = ms");
             setScreen(ms);
             gos.dispose();
@@ -101,11 +99,13 @@ public class MainActivity extends Game {
             gs.dispose();
             prefs.putBoolean("playTheme", true).flush(); // true for Menu Music
             soundSystem.playSound("playTheme", true);
-            time = TimeUtils.nanoTime();
         }
         if(isEscape() && getScreen().equals(ss)){
             setScreen(ms);
             ss.dispose();
+        }
+        if(isEscape() && getScreen().equals(ms)){ //TODO added this
+            Gdx.app.exit();
         }
     }
 
